@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Processing/P5.fs" />
+    <Compile Include="Walkers/Walkers2D.fs" />
+    <Compile Include="Introduction/NoiseExperiments.fs" />
+    <Compile Include="Introduction/RandomExperiments.fs" />
+    <Compile Include="Introduction/WalkerTransforms.fs" />
+    <Compile Include="Introduction/RandomWalkers.fs" />
+    <Compile Include="App.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fable.Core" Version="2.0.3" />
+  </ItemGroup>
+</Project>
