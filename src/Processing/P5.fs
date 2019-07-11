@@ -21,21 +21,43 @@ module P5 =
   let Rgba (c:ColorArgs) =
     sprintf "rgba(%d,%d,%d,%f)" c.R c.G c.B c.A
 
+type CanvasDimension = int
+type ColorValue = int
+
+type PositionX = float
+type PositionY = float
+type PositionZ = float
+
+type SourcePositionX = float
+type SourcePositionY = float
+type TargetPositionX = float
+type TargetPositionY = float
+
+type CenterX = float
+type CenterY = float
+
+type Width = float
+type Height = float
+
 type P5 =
   // Essentials
-  abstract member createCanvas: int -> int -> unit
-  abstract member background: U2<string,int> -> unit
-  abstract member fill: U2<string,int> -> unit
-  abstract member stroke: U2<string,int> -> unit
+  abstract member createCanvas: CanvasDimension -> CanvasDimension -> unit
+  abstract member background: U2<string,ColorValue> -> unit
+  abstract member fill: U2<string,ColorValue> -> unit
+  abstract member stroke: U2<string,ColorValue> -> unit
   abstract member noStroke: unit -> unit
   abstract member noFill: unit -> unit
 
+  // Transformations
+  abstract member translate: PositionX -> PositionY -> unit
+
   // Shapes
-  abstract member point: float -> float -> unit
-  abstract member point3D: float -> float -> float -> unit
-  abstract member rect: float -> float -> float -> float -> unit
-  abstract member ellipse: float -> float -> float -> float -> unit
-  
+  abstract member point: PositionX -> PositionY -> unit
+  abstract member point3D: PositionX -> PositionY -> PositionZ -> unit
+  abstract member rect: PositionX -> PositionY -> Width -> Height -> unit
+  abstract member ellipse: CenterX -> CenterY -> Width -> Height -> unit
+  abstract member line: SourcePositionX -> SourcePositionY -> TargetPositionX -> TargetPositionY -> unit
+
   // RNG
   abstract member random: float -> float
   abstract member randomFromRange: float -> float -> float
@@ -54,8 +76,8 @@ type P5 =
   abstract member lerp: float -> float -> float -> float
 
   // State
-  abstract member width: float
-  abstract member height: float
+  abstract member width: Width
+  abstract member height: Height
   abstract member mouseIsPressed: bool
-  abstract member mouseX: float
-  abstract member mouseY: float
+  abstract member mouseX: PositionX
+  abstract member mouseY: PositionY

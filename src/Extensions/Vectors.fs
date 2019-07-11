@@ -1,46 +1,66 @@
 namespace Extensions
 
-type Vector2 = decimal * decimal
-type Vector3 = decimal * decimal * decimal
+type Vector2 (x: float, y: float) =
+    member __.X = x
+    member __.Y = y
 
-module Vector2 =
-    let private bothwise op (v: Vector2): Vector2 =
-        (fst >> op) v, (snd >> op) v
+    member this.X' x =
+        Vector2 (x, this.Y)
 
-    let private pairwise op (v1: Vector2) (v2: Vector2): Vector2 =
-        op (fst v1) (fst v2), op (snd v1) (snd v2)
+    member this.Y' y =
+        Vector2 (this.X, y)
 
-    let private sum (v: Vector2) =
-        v |> (fun (x, y) -> x + y)
+    static member private Bothwise op (v: Vector2): Vector2 =
+        Vector2 (op v.X, op v.Y)
 
-    let private decSq (n: decimal) = n * n
+    static member private Pairwise op (v1: Vector2) (v2: Vector2): Vector2 =
+        Vector2 (op v1.X v2.X, op v1.Y v2.Y)
 
-    let private sqrtSum (v: Vector2) =
-        sum v
-        |> float        
+    static member private Sum (v: Vector2) =
+        v.X + v.Y
+
+    static member private SqrtSum (v: Vector2) =
+        Vector2.Sum v
         |> sqrt
 
-    let magSq (v: Vector2) =
-        bothwise decSq v
+    static member private Sq f = f * f
 
-    let mag (v: Vector2) =
-        magSq v
-        |> sqrtSum
+    member this.MagSq =
+        Vector2.Bothwise Vector2.Sq this
+        |> Vector2.Sum
 
-    let dot (v1: Vector2) (v2: Vector2) =
-        let x, y = pairwise (*) v1 v2
-        x + y
+    member this.Mag =
+        this.MagSq
+        |> sqrt
 
-    let dist (v1: Vector2) (v2: Vector2) =
-        pairwise (-) v1 v2
-        |> bothwise decSq
-        |> sum
+    member this.Normalized =
+        if this.Mag = 0. then Vector2 (0., 0.)
+        else Vector2 ( this.X / this.Mag,
+                       this.Y / this.Mag )
 
-    let (+) = pairwise (+)
+    static member Distance (v1: Vector2, v2: Vector2) =
+        Vector2.Pairwise (-) v1 v2
+        |> Vector2.Bothwise (( ** ) 2.)
+        |> Vector2.Sum
 
-    let (-) = pairwise (-)
+    static member (|->) (v1: Vector2, v2: Vector2) = Vector2.Distance
 
-    let (*) x = bothwise ((*) x)
+    static member (+) (v1: Vector2, v2: Vector2) = 
+        Vector2.Pairwise (+) v1 v2
 
-    let (/) x = bothwise ((/) x)
+    static member (-) (v1: Vector2, v2: Vector2) = 
+        Vector2.Pairwise (-) v1 v2
 
+    static member (*) (v: Vector2, x: float) = 
+        Vector2.Bothwise ((*) x) v
+
+    // Convenient, but weird
+    static member (*) (v1: Vector2, (x, y)) =
+        Vector2.Pairwise (*) v1 (Vector2(x,y))
+
+    static member (/) (v: Vector2, x: float) =
+        Vector2.Bothwise ((/) x) v
+
+    static member (.*) (v1: Vector2, v2: Vector2) =
+        Vector2.Pairwise (*) v1 v2
+        |> Vector2.Sum

@@ -4,11 +4,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Processing/P5.fs" />
+    <Compile Include="Extensions/Vectors.fs" />
     <Compile Include="Walkers/Walkers2D.fs" />
     <Compile Include="Introduction/NoiseExperiments.fs" />
     <Compile Include="Introduction/RandomExperiments.fs" />
     <Compile Include="Introduction/WalkerTransforms.fs" />
     <Compile Include="Introduction/RandomWalkers.fs" />
+    <Compile Include="Chapter1/SimpleBall.fs" />
+    <Compile Include="Chapter1/VectorDemo.fs" />
+    <Compile Include="Chapter1/Mover.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>
