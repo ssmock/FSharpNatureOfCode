@@ -3,55 +3,31 @@ namespace Chapter1
 open Extensions
 
 type VelocityMover = {
-    Location: Vector2
-    Velocity: Vector2
+    Location: Vec2
+    Velocity: Vec2
 }
 
 type WorldParams = {
-    LowerBound: Vector2
-    UpperBound: Vector2
+    LowerBound: Vec2
+    UpperBound: Vec2
 }
-
-// TODO -- Replace with a general clamp fn
-type BoundsState = {
-    XState: BoundStateValue
-    YState: BoundStateValue
-}
-and BoundStateValue =
-    | InBounds
-    | BeyondLower
-    | BeyondUpper
 
 module VelocityMoverWorld =
-    let GetBoundsState worldParams (loc: Vector2) =
-        let check upper lower x =
-            if x < lower then BeyondLower
-            elif x > upper then BeyondUpper
-            else InBounds
-    
-        { XState = check worldParams.LowerBound.X 
-                         worldParams.UpperBound.X 
-                         loc.X
 
-          YState = check worldParams.LowerBound.Y
-                         worldParams.UpperBound.Y 
-                         loc.Y }
-    
-    let UpdateMover worldParams mover =
+    let UpdateMover (worldParams: WorldParams) mover =
         let newLoc = mover.Location + mover.Velocity
-        let bs = GetBoundsState worldParams newLoc 
+        let eval, clamped = Bounds.ClampVec2 worldParams.UpperBound worldParams.LowerBound newLoc
 
-        if bs.XState = InBounds && bs.YState = InBounds then
-            { mover with
-                    Location = newLoc }
-        elif bs.XState = InBounds then
-            { mover with
-                    Location = newLoc.Y' mover.Location.Y
-                    Velocity = mover.Velocity * (1., -1.) }
-        elif bs.YState = InBounds then
-            { mover with
-                    Location = newLoc.X' mover.Location.X
-                    Velocity = mover.Velocity * (-1., 1.) }
-        else
-            { mover with
-                    Velocity = mover.Velocity * -1. }
+        let velX = match eval.X with
+                   | High | Low -> mover.Velocity.X * -1.
+                   | _ -> mover.Velocity.X 
+
+        let velY = match eval.Y with
+                   | High | Low -> mover.Velocity.Y * -1.
+                   | _ -> mover.Velocity.Y
+
+        let newVel: Vec2 = Vec2(velX, velY)
+
+        { mover with
+                Location = clamped 
+                Velocity = newVel }

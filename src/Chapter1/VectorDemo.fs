@@ -6,26 +6,26 @@ open Extensions
 
 module VectorDemo =
     type Constant = {
-        Bounds: Vector2
-        Shift: Vector2
+        Bounds: Vec2
+        Shift: Vec2
     }
 
     type State = {
-        Target: Vector2
+        Target: Vec2
     }
 
     let constant = {
-        Bounds = Vector2 (720., 720.)
-        Shift = Vector2 (360., 360.)
+        Bounds = Vec2 (720., 720.)
+        Shift = Vec2 (360., 360.)
     }
 
     let mutable state = {
-        Target = Vector2 (0., 0.)
+        Target = Vec2 (0., 0.)
     } 
 
     let updateState (p: P5) =
         state <- { state with
-                         Target = Vector2 (p.mouseX, p.mouseY) }
+                         Target = Vec2 (p.mouseX, p.mouseY) }
 
     let drawLine (p: P5) =
         p.stroke !^ 255

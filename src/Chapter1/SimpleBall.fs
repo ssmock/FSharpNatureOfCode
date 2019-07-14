@@ -6,23 +6,23 @@ open Extensions
 
 module SimpleBall =
     type Constant = {
-        Bounds: Vector2
+        Bounds: Vec2
     }
 
     type State = {
-        BallPosition: Vector2
-        BallVelocity: Vector2
+        BallPosition: Vec2
+        BallVelocity: Vec2
         BallRadius: float
     }
 
     let constant = {
-        Bounds = new Vector2 (720., 720.)
+        Bounds = new Vec2 (720., 720.)
     }
 
     let mutable private state = {
-        BallPosition = new Vector2 (0., 0.)
+        BallPosition = new Vec2 (0., 0.)
         BallRadius = 25.
-        BallVelocity = new Vector2 (1.5, 1.2)
+        BallVelocity = new Vec2 (1.5, 1.2)
     } 
 
     let private drawBall (p: P5) (s: State) =
@@ -39,7 +39,7 @@ module SimpleBall =
                                     state.BallVelocity.Y * -1.
                                  else state.BallVelocity.Y
 
-        Vector2 (effectiveVelocityX, effectiveVelocityY)
+        Vec2 (effectiveVelocityX, effectiveVelocityY)
 
     let private updateState () =
         let effectiveVelocity = getEffectiveVelocity ()

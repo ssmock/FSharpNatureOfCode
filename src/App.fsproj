@@ -4,7 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Processing/P5.fs" />
-    <Compile Include="Extensions/Vectors.fs" />
+    <Compile Include="Extensions/Vec2.fs" />
+    <Compile Include="Extensions/Bounds.fs" />
     <Compile Include="Walkers/Walkers2D.fs" />
     <Compile Include="Introduction/NoiseExperiments.fs" />
     <Compile Include="Introduction/RandomExperiments.fs" />
@@ -13,6 +14,7 @@
     <Compile Include="Chapter1/SimpleBall.fs" />
     <Compile Include="Chapter1/VectorDemo.fs" />
     <Compile Include="Chapter1/Mover.fs" />
+    <Compile Include="Chapter1/MoverSketch.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>
