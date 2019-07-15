@@ -4,24 +4,33 @@ open Fable.Core.JsInterop
 
 open Processing
 open Extensions
+open AccelerationMoverWorld
 
 module MoverSketch =
 
-    let mutable mover = { Location = Vec2(20., 30.)
-                          Velocity = Vec2(12., 2.) }
+    let constantAcceleration = fun (w: WorldParams) -> Vec2(0.002, 0.015)
 
-    let worldParams = { LowerBound = Vec2(0., 0.)
-                        UpperBound = Vec2(1200., 1200.) }
+    let mutable mover = { Location = Vec2(0., 30.)
+                          Velocity = Vec2(0., 0.)
+                          MaxVelocity = 10. 
+                          Acceleration = constantAcceleration }
 
-    let update = VelocityMoverWorld.UpdateMover worldParams
+    let mutable world = { LowerBound = Vec2(0., 0.)
+                          UpperBound = Vec2(1200., 1200.) }
 
     let Setup (p: P5) =
-        p.createCanvas (int worldParams.UpperBound.X)
-                       (int worldParams.UpperBound.Y)
+        p.createCanvas (int world.UpperBound.X)
+                       (int world.UpperBound.Y)
         p.background !^ 0
       
     let Draw (p: P5) =
-        mover <- update mover
+        p.background !^ 0
+
+        world <- UpdateWorld p world
+        mover <- UpdateMover world mover
+
+        p.stroke !^ "#800"
+        p.fill !^ "#047"
 
         p.ellipse mover.Location.X
                   mover.Location.Y

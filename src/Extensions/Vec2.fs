@@ -43,7 +43,13 @@ type Vec2 (x: float, y: float) =
     member this.Normalized =
         if this.Mag = 0. then Vec2 (0., 0.)
         else Vec2 ( this.X / this.Mag,
-                       this.Y / this.Mag )
+                    this.Y / this.Mag )
+
+    static member Limit (mag: float) (v: Vec2): Vec2 =
+        if (v.Mag <= mag) then
+            v 
+        else
+            v.Normalized * mag        
 
     static member Distance (v1: Vec2, v2: Vec2) =
         Vec2.Pairwise (-) v1 v2
