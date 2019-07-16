@@ -1,15 +1,18 @@
 module App
 
 open Fable.Core.JsInterop
-open Processing
-
-let _p5Import: obj = importAll "p5"
-let _p5Integration: obj = importAll "./Processing/js/integration"
 
 let init () =
-  let setup = Chapter1.MoverSketch.Setup // Chapter1.VectorDemo.Setup
-  let draw = Chapter1.MoverSketch.Draw // Chapter1.VectorDemo.Draw
+  30., 60.
 
-  P5.StartProcessing ()  
+let first (p: Processing.P5) _ =
+  p.createCanvas 720 720
+  p.background !^ 0
 
-init ()
+let cycle (p: Processing.P5) (x, y) =
+  p.ellipse x y x y
+  x + 1., y + 1.
+
+Extensions.F5.Start init
+                    first
+                    cycle

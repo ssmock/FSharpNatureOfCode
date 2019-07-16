@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Processing/P5.fs" />
+    <Compile Include="Extensions/F5.fs" />
     <Compile Include="Extensions/Vec2.fs" />
     <Compile Include="Extensions/Bounds.fs" />
     <Compile Include="Walkers/Walkers2D.fs" />
