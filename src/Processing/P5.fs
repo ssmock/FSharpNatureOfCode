@@ -1,6 +1,7 @@
 namespace Processing
 
 open Fable.Core
+open Constants
 
 module P5 =
   [<Emit("
@@ -39,6 +40,8 @@ type CenterY = float
 type Width = float
 type Height = float
 
+type FontSize = float
+
 type P5 =
   // Essentials
   abstract member createCanvas: CanvasDimension -> CanvasDimension -> unit
@@ -58,6 +61,10 @@ type P5 =
   abstract member ellipse: CenterX -> CenterY -> Width -> Height -> unit
   abstract member line: SourcePositionX -> SourcePositionY -> TargetPositionX -> TargetPositionY -> unit
 
+  // Text
+  abstract member textSize: FontSize -> unit
+  abstract member text: string -> PositionX -> PositionY -> unit
+
   // RNG
   abstract member random: float -> float
   abstract member randomFromRange: float -> float -> float
@@ -75,9 +82,16 @@ type P5 =
   abstract member mapClamp: float -> float -> float -> float -> float -> float
   abstract member lerp: float -> float -> float -> float
 
-  // State
+  // State: Canvas
   abstract member width: Width
   abstract member height: Height
+  
+  // State: Input
   abstract member mouseIsPressed: bool
   abstract member mouseX: PositionX
   abstract member mouseY: PositionY
+  
+  abstract member keyIsPressed: bool
+  abstract member keyCode: int
+  abstract member key: string
+  abstract member keyIsDown: KeyCodes -> bool

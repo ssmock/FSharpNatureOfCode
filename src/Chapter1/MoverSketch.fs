@@ -2,13 +2,14 @@ namespace Chapter1
 
 open Fable.Core.JsInterop
 
+open Constants
 open Processing
 open Extensions
 open AccelerationMoverWorld
 
 module MoverSketch =
 
-    let constantAcceleration = fun (w: WorldParams) -> Vec2(0.002, 0.015)
+    let constantAcceleration = fun (w: WorldParams) -> Vec2(0.02, 0.015)
 
     type State = {
         Mover: Mover
@@ -21,7 +22,7 @@ module MoverSketch =
                     MaxVelocity = 10. 
                     Acceleration = constantAcceleration }
           World = { LowerBound = Vec2(0., 0.)
-                    UpperBound = Vec2(1200., 1200.) } }
+                    UpperBound = Vec2(600., 600.) } }
 
     let PrepCanvas (p: P5) s =
         p.createCanvas (int s.World.UpperBound.X)
@@ -35,7 +36,7 @@ module MoverSketch =
         let m' = UpdateMover w' s.Mover
 
         p.stroke !^ "#800"
-        p.fill !^ "#047"
+        p.fill !^ (if p.keyIsDown KeyCodes.Up then "#047" else "#074")
 
         p.ellipse m'.Location.X
                   m'.Location.Y

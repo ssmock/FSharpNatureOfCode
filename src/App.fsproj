@@ -3,6 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants/KeyCodes.fs" />
     <Compile Include="Processing/P5.fs" />
     <Compile Include="Extensions/F5.fs" />
     <Compile Include="Extensions/Vec2.fs" />
