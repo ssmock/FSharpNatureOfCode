@@ -10,31 +10,37 @@ module MoverSketch =
 
     let constantAcceleration = fun (w: WorldParams) -> Vec2(0.002, 0.015)
 
-    let mutable mover = { Location = Vec2(0., 30.)
-                          Velocity = Vec2(0., 0.)
-                          MaxVelocity = 10. 
-                          Acceleration = constantAcceleration }
+    type State = {
+        Mover: Mover
+        World: WorldParams
+    }
 
-    let mutable world = { LowerBound = Vec2(0., 0.)
-                          UpperBound = Vec2(1200., 1200.) }
+    let InitState () =
+        { Mover = { Location = Vec2(0., 30.)
+                    Velocity = Vec2(0., 0.)
+                    MaxVelocity = 10. 
+                    Acceleration = constantAcceleration }
+          World = { LowerBound = Vec2(0., 0.)
+                    UpperBound = Vec2(1200., 1200.) } }
 
-    let Setup (p: P5) =
-        p.createCanvas (int world.UpperBound.X)
-                       (int world.UpperBound.Y)
+    let PrepCanvas (p: P5) s =
+        p.createCanvas (int s.World.UpperBound.X)
+                       (int s.World.UpperBound.Y)
         p.background !^ 0
       
-    let Draw (p: P5) =
+    let Cycle (p: P5) s =
         p.background !^ 0
 
-        world <- UpdateWorld p world
-        mover <- UpdateMover world mover
+        let w' = UpdateWorld p s.World
+        let m' = UpdateMover w' s.Mover
 
         p.stroke !^ "#800"
         p.fill !^ "#047"
 
-        p.ellipse mover.Location.X
-                  mover.Location.Y
+        p.ellipse m'.Location.X
+                  m'.Location.Y
                   25.
                   25.
 
+        { World = w'; Mover = m' }
     
